@@ -1,0 +1,1065 @@
+swagger: "2.0"
+info:
+  title: 金钻系统-权限管理API
+  description: 提供给管理后台的权限控制接口
+  version: 1.0.0
+  termsOfService: http://beego.me/
+  contact:
+    name: 郭双鹏
+    email: guoshuangpeng@le.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+basePath: /vcoin/auth/v1
+paths:
+  /admin/:
+    get:
+      tags:
+      - admin
+      summary: 管理员查询接口
+      description: 管理员查询接口
+      operationId: AdminController.管理员查询接口
+      parameters:
+      - in: query
+        name: id
+        description: 管理员ID
+        type: number
+      - in: query
+        name: mail
+        description: 用户邮箱
+        type: string
+      - in: query
+        name: role_name
+        description: 角色名称
+        type: string
+      - in: query
+        name: business_id
+        description: 业务线ID
+        type: number
+      - in: query
+        name: status
+        description: 管理员状态
+        type: number
+      - in: query
+        name: begin_time
+        description: 开始时间
+        type: number
+      - in: query
+        name: end_time
+        description: 结束时间
+        type: number
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.AdminPutRsp'
+        "400":
+          description: ""
+    post:
+      tags:
+      - admin
+      summary: 管理员添加接口
+      description: 管理员添加接口
+      operationId: AdminController.管理员添加接口
+      parameters:
+      - in: body
+        name: body
+        description: 请求参数
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.AdminReq'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.AdminPostRsp'
+        "400":
+          description: ""
+  /admin/{id}:
+    put:
+      tags:
+      - admin
+      summary: 管理员修改接口
+      description: 管理员修改接口
+      operationId: AdminController.管理员修改接口
+      parameters:
+      - in: path
+        name: id
+        description: 管理员Id
+        required: true
+        type: number
+      - in: body
+        name: body
+        description: 请求参数
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.AdminReq'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.AdminPutRsp'
+        "400":
+          description: ""
+  /admin/business/{id}:
+    put:
+      tags:
+      - admin
+      summary: 管理员业务线修改接口
+      description: 管理员业务线修改接口
+      operationId: AdminController.管理员业务线修改接口
+      parameters:
+      - in: path
+        name: admin_id
+        description: 管理员ID
+        required: true
+        type: number
+      - in: body
+        name: body
+        description: 请求参数
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.AdminBusinessPutReq'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.AdminBusinessPutRsp'
+        "400":
+          description: ""
+  /admin/business/add/{id}:
+    put:
+      tags:
+      - admin
+      summary: 管理员业务线关联关系添加接口
+      description: 管理员业务线关联关系添加接口
+      operationId: AdminController.管理员业务线关联关系添加接口
+      parameters:
+      - in: path
+        name: admin_id
+        description: 管理员ID
+        required: true
+        type: number
+      - in: body
+        name: body
+        description: 请求参数
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.AdminBusinessAddPutReq'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.AdminBusinessAddPutRsp'
+        "400":
+          description: ""
+  /admin/whoami:
+    get:
+      tags:
+      - admin
+      summary: 获取管理员信息接口
+      description: 获取管理员信息接口
+      operationId: AdminController.获取管理员信息接口
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.WhoAmIRsp'
+        "400":
+          description: ""
+  /auth/:
+    get:
+      tags:
+      - auth
+      summary: 用户鉴权接口
+      description: 用户鉴权接口
+      operationId: AuthController.用户鉴权接口
+      parameters:
+      - in: query
+        name: m_tk
+        description: 用户tk
+        required: true
+        type: string
+      - in: query
+        name: path
+        description: 请求路径，需进行urlencode
+        required: true
+        type: string
+      - in: query
+        name: method
+        description: 请求方式，要求为大写
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.AuthRsp'
+        "400":
+          description: ""
+  /interface/:
+    get:
+      tags:
+      - interface
+      summary: 接口资源查询
+      description: 接口资源查询
+      operationId: InterfaceController.接口资源查询
+      parameters:
+      - in: query
+        name: name
+        description: 接口名称
+        type: string
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.InterfaceGetRsp'
+        "400":
+          description: ""
+  /resource/:
+    get:
+      tags:
+      - resource
+      summary: 资源查询接口
+      description: 资源查询接口
+      operationId: ResourceController.资源查询接口
+      parameters:
+      - in: query
+        name: res_name
+        description: 资源名称
+        type: string
+      - in: query
+        name: if_name
+        description: 接口名称
+        type: string
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.ResourcesGetAllRsp'
+        "400":
+          description: ""
+    post:
+      tags:
+      - resource
+      summary: 资源添加接口
+      description: 资源添加接口
+      operationId: ResourceController.资源添加接口
+      parameters:
+      - in: body
+        name: body
+        description: 请求参数
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.ResourcesReq'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.ResourcesPostRsp'
+        "400":
+          description: ""
+  /resource/{id}:
+    put:
+      tags:
+      - resource
+      summary: 资源修改接口
+      description: 资源修改接口
+      operationId: ResourceController.资源修改接口
+      parameters:
+      - in: path
+        name: rId
+        description: 资源ID
+        required: true
+        type: number
+      - in: body
+        name: body
+        description: 请求参数
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.ResourcesReq'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.ResourcesPutRsp'
+        "400":
+          description: ""
+  /resource/{rid}:
+    delete:
+      tags:
+      - resource
+      summary: 资源递归删除接口
+      description: 资源删除接口
+      operationId: ResourceController.资源递归删除接口
+      parameters:
+      - in: path
+        name: rId
+        description: 资源ID
+        required: true
+        type: number
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.ResourcesDeleteRsp'
+        "400":
+          description: ""
+  /resource/interface/{id}:
+    put:
+      tags:
+      - resource
+      summary: 资源接口关联修改接口
+      description: 资源接口关联修改接口
+      operationId: ResourceController.资源接口关联修改接口
+      parameters:
+      - in: path
+        name: id
+        description: 资源ID
+        required: true
+        type: number
+      - in: body
+        name: body
+        description: 请求参数
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.ResourcesInterfacePutReq'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.ResourcesInterfacePutRsp'
+        "400":
+          description: ""
+  /role/:
+    get:
+      tags:
+      - role
+      summary: 角色查询接口
+      description: 角色查询接口
+      operationId: RoleController.角色查询接口
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.RoleGetAllRsp'
+        "400":
+          description: ""
+    post:
+      tags:
+      - role
+      summary: 角色`添加接口
+      description: 角色添加接口
+      operationId: RoleController.角色添加接口
+      parameters:
+      - in: body
+        name: body
+        description: 请求参数
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.RoleReq'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.RolePostRsp'
+        "400":
+          description: ""
+  /role/{id}:
+    put:
+      tags:
+      - role
+      summary: 角色修改接口
+      description: 角色修改接口
+      operationId: RoleController.角色修改接口
+      parameters:
+      - in: path
+        name: rId
+        description: 角色ID
+        required: true
+        type: number
+      - in: body
+        name: body
+        description: 请求参数
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.RoleReq'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.RolePutRsp'
+        "400":
+          description: ""
+  /role/{rid}:
+    delete:
+      tags:
+      - role
+      summary: 角色递归删除接口
+      description: 角色递归删除接口
+      operationId: RoleController.角色递归删除接口
+      parameters:
+      - in: path
+        name: rId
+        description: 角色ID
+        required: true
+        type: number
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.RoleDeleteRsp'
+        "400":
+          description: ""
+  /role/resource:
+    get:
+      tags:
+      - role
+      summary: 角色资源关联查询接口
+      description: 角色资源关联查询接口
+      operationId: RoleController.角色资源关联查询接口
+      parameters:
+      - in: query
+        name: role_name
+        description: 角色名称
+        type: string
+      - in: query
+        name: resources_name
+        description: 资源名称
+        type: string
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.RoleAndResourcesGetAllRsp'
+        "400":
+          description: ""
+  /role/resource/{id}:
+    put:
+      tags:
+      - role
+      summary: 角色资源关联修改接口
+      description: 角色资源关联修改接口
+      operationId: RoleController.角色资源关联修改接口
+      parameters:
+      - in: path
+        name: role_id
+        description: 角色ID
+        required: true
+        type: number
+      - in: body
+        name: body
+        description: 请求参数
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.RoleResourcesPutRep'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.RoleResourcesPutRsp'
+        "400":
+          description: ""
+definitions:
+  comm.AdminData:
+    title: AdminData
+    type: object
+  controllers.AdminBusinessAddPutReq:
+    title: AdminBusinessAddPutReq
+    type: object
+    properties:
+      business_id:
+        description: 业务线ID
+        type: integer
+        format: int64
+  controllers.AdminBusinessAddPutRsp:
+    title: AdminBusinessAddPutRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      message:
+        description: 错误描述
+        type: string
+  controllers.AdminBusinessPutReq:
+    title: AdminBusinessPutReq
+    type: object
+    properties:
+      business_ids:
+        description: 角色ID集合
+        type: array
+        items:
+          type: integer
+          format: int64
+  controllers.AdminBusinessPutRsp:
+    title: AdminBusinessPutRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      message:
+        description: 错误描述
+        type: string
+  controllers.AdminPostData:
+    title: AdminPostData
+    type: object
+    properties:
+      id:
+        description: 管理员ID
+        type: integer
+        format: int64
+      name:
+        description: 管理员名称
+        type: string
+      staff_no:
+        description: 工号
+        type: string
+  controllers.AdminPostRsp:
+    title: AdminPostRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      data:
+        $ref: '#/definitions/controllers.AdminPostData'
+        description: 业务数据
+      message:
+        description: 错误描述
+        type: string
+  controllers.AdminPutRsp:
+    title: AdminPutRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      message:
+        description: 错误描述
+        type: string
+  controllers.AdminReq:
+    title: AdminReq
+    type: object
+    properties:
+      mail:
+        description: 管理员邮箱
+        type: string
+      role_id:
+        description: 角色Id
+        type: integer
+        format: int64
+      status:
+        description: 管理员状态
+        type: integer
+        format: int64
+  controllers.AuthRsp:
+    title: AuthRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      data:
+        $ref: '#/definitions/comm.AdminData'
+        description: 业务数据
+      message:
+        description: 错误描述
+        type: string
+  controllers.InterfaceGetData:
+    title: InterfaceGetData
+    type: object
+    properties:
+      interfaces:
+        description: 接口列表
+        type: array
+        items:
+          $ref: '#/definitions/models.InterfaceDate'
+  controllers.InterfaceGetRsp:
+    title: InterfaceGetRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      data:
+        $ref: '#/definitions/controllers.InterfaceGetData'
+        description: 业务数据
+      message:
+        description: 错误描述
+        type: string
+  controllers.ResourcesDeleteRsp:
+    title: ResourcesDeleteRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      message:
+        description: 错误描述
+        type: string
+  controllers.ResourcesGetAllData:
+    title: ResourcesGetAllData
+    type: object
+    properties:
+      resources:
+        description: 资源列表
+        type: array
+        items:
+          $ref: '#/definitions/models.ResourceTree'
+  controllers.ResourcesGetAllRsp:
+    title: ResourcesGetAllRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      data:
+        $ref: '#/definitions/controllers.ResourcesGetAllData'
+        description: 业务数据
+      message:
+        description: 错误描述
+        type: string
+  controllers.ResourcesInterfacePutReq:
+    title: ResourcesInterfacePutReq
+    type: object
+    properties:
+      interface_ids:
+        description: 接口ID集合
+        type: array
+        items:
+          type: integer
+          format: int64
+  controllers.ResourcesInterfacePutRsp:
+    title: ResourcesInterfacePutRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      message:
+        description: 错误描述
+        type: string
+  controllers.ResourcesPostData:
+    title: ResourcesPostData
+    type: object
+    properties:
+      id:
+        description: 新创建资源ID
+        type: integer
+        format: int64
+  controllers.ResourcesPostRsp:
+    title: ResourcesPostRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      data:
+        $ref: '#/definitions/controllers.ResourcesPostData'
+        description: 业务数据
+      message:
+        description: 错误描述
+        type: string
+  controllers.ResourcesPutRsp:
+    title: ResourcesPutRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      message:
+        description: 错误描述
+        type: string
+  controllers.ResourcesReq:
+    title: ResourcesReq
+    required:
+    - name
+    - path
+    type: object
+    properties:
+      description:
+        description: 描述信息
+        type: string
+      name:
+        description: 资源名称
+        type: string
+      parent_id:
+        description: 父级资源ID
+        type: integer
+        format: int64
+      path:
+        description: 资源路径
+        type: string
+      priority:
+        description: 资源优先级
+        type: integer
+        format: int64
+  controllers.RoleAndResourcesGetAllData:
+    title: RoleAndResourcesGetAllData
+    type: object
+    properties:
+      roles:
+        description: 资源列表
+        type: array
+        items:
+          $ref: '#/definitions/models.RoleResourcesTree'
+  controllers.RoleAndResourcesGetAllRsp:
+    title: RoleAndResourcesGetAllRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      data:
+        $ref: '#/definitions/controllers.RoleAndResourcesGetAllData'
+        description: 业务数据
+      message:
+        description: 错误描述
+        type: string
+  controllers.RoleDeleteRsp:
+    title: RoleDeleteRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      message:
+        description: 错误描述
+        type: string
+  controllers.RoleGetAllData:
+    title: RoleGetAllData
+    type: object
+    properties:
+      roles:
+        description: 资源列表
+        type: array
+        items:
+          $ref: '#/definitions/models.RoleTree'
+  controllers.RoleGetAllRsp:
+    title: RoleGetAllRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      data:
+        $ref: '#/definitions/controllers.RoleGetAllData'
+        description: 业务数据
+      message:
+        description: 错误描述
+        type: string
+  controllers.RolePostData:
+    title: RolePostData
+    type: object
+    properties:
+      id:
+        description: 新创建角色ID
+        type: integer
+        format: int64
+  controllers.RolePostRsp:
+    title: RolePostRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      data:
+        $ref: '#/definitions/controllers.RolePostData'
+        description: 业务数据
+      message:
+        description: 错误描述
+        type: string
+  controllers.RolePutRsp:
+    title: RolePutRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      message:
+        description: 错误描述
+        type: string
+  controllers.RoleReq:
+    title: RoleReq
+    required:
+    - name
+    type: object
+    properties:
+      description:
+        description: 描述信息
+        type: string
+      name:
+        description: 角色名称
+        type: string
+  controllers.RoleResourcesPutRep:
+    title: RoleResourcesPutRep
+    type: object
+    properties:
+      resource_ids:
+        description: 资源ID集合
+        type: array
+        items:
+          type: integer
+          format: int64
+  controllers.RoleResourcesPutRsp:
+    title: RoleResourcesPutRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      message:
+        description: 错误描述
+        type: string
+  controllers.WhoAmIData:
+    title: WhoAmIData
+    type: object
+    properties:
+      businesses:
+        description: 所属业务线
+        type: array
+        items:
+          $ref: '#/definitions/models.AdminGetBusiness'
+      id:
+        description: 管理员用户ID
+        type: integer
+        format: int64
+      mail:
+        description: 管理员用户邮箱
+        type: string
+      name:
+        description: 管理员用户名称
+        type: string
+      resources:
+        description: 资源信息
+        type: array
+        items:
+          $ref: '#/definitions/models.ResourceTree'
+      role_id:
+        description: 管理员用户角色Id
+        type: integer
+        format: int64
+      role_name:
+        description: 角色名称
+        type: string
+      staff_no:
+        description: 工号
+        type: string
+      status:
+        description: 管理员用户状态
+        type: integer
+        format: int64
+      user_name:
+        description: 管理员名称
+        type: string
+  controllers.WhoAmIRsp:
+    title: WhoAmIRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      data:
+        $ref: '#/definitions/controllers.WhoAmIData'
+        description: 业务数据
+      message:
+        description: 错误描述
+        type: string
+  models.AdminGetBusiness:
+    title: AdminGetBusiness
+    type: object
+    properties:
+      create_time:
+        description: 业务线ID
+        type: integer
+        format: int64
+      creator:
+        description: 创建者
+        type: string
+      description:
+        description: 业务线ID
+        type: string
+      id:
+        description: 业务线ID
+        type: integer
+        format: int64
+      name:
+        description: 业务线ID
+        type: string
+      status:
+        description: 业务线ID
+        type: integer
+        format: int64
+  models.InterfaceDate:
+    title: InterfaceDate
+    type: object
+    properties:
+      description:
+        description: 接口备注信息
+        type: string
+      id:
+        description: 接口ID
+        type: integer
+        format: int64
+      method:
+        description: 接口请求方式
+        type: string
+      name:
+        description: 接口名称
+        type: string
+      path:
+        description: 接口路径
+        type: string
+  models.ResourceTree:
+    title: ResourceTree
+    type: object
+    properties:
+      children:
+        description: 子资源
+        type: array
+        items:
+          $ref: '#/definitions/models.ResourceTree'
+      description:
+        description: 资源备注信息
+        type: string
+      id:
+        description: 资源ID
+        type: integer
+        format: int64
+      interfaces:
+        description: 接口资源
+        type: array
+        items:
+          $ref: '#/definitions/models.InterfaceDate'
+      name:
+        description: 资源名称
+        type: string
+      parent_id:
+        description: 父级资源ID
+        type: integer
+        format: int64
+      path:
+        description: 资源路径
+        type: string
+      priority:
+        description: 资源优先级
+        type: integer
+        format: int64
+  models.Resources:
+    title: Resources
+    type: object
+    properties:
+      CreateAdminId:
+        type: integer
+        format: int64
+      CreateTime:
+        type: string
+        format: datetime
+      Description:
+        type: string
+      Id:
+        type: integer
+        format: int64
+      Name:
+        type: string
+      ParentId:
+        type: integer
+        format: int64
+      Path:
+        type: string
+      Priority:
+        type: integer
+        format: int64
+      UpdateAdminId:
+        type: integer
+        format: int64
+      UpdateTime:
+        type: string
+        format: datetime
+  models.RoleResourcesTree:
+    title: RoleResourcesTree
+    type: object
+    properties:
+      children:
+        description: 子角色资源
+        type: array
+        items:
+          $ref: '#/definitions/models.RoleResourcesTree'
+      description:
+        description: 角色备注信息
+        type: string
+      id:
+        description: 角色ID
+        type: integer
+        format: int64
+      name:
+        description: 角色名称
+        type: string
+      parent_id:
+        description: 父角色ID
+        type: integer
+        format: int64
+      resources:
+        description: 资源列表
+        type: array
+        items:
+          $ref: '#/definitions/models.Resources'
+  models.RoleTree:
+    title: RoleTree
+    type: object
+    properties:
+      children:
+        description: 子角色资源
+        type: array
+        items:
+          $ref: '#/definitions/models.RoleTree'
+      description:
+        description: 角色备注信息
+        type: string
+      id:
+        description: 角色ID
+        type: integer
+        format: int64
+      name:
+        description: 角色名称
+        type: string
+      parent_id:
+        description: 父角色ID
+        type: integer
+        format: int64
+tags:
+- name: resource
+  description: |
+    页面相关接口
+- name: role
+  description: |
+    角色相关接口
+- name: admin
+  description: |
+    管理员相关接口
+- name: auth
+  description: |
+    鉴权相关接口
+- name: interface
+  description: |
+    接口资源相关接口

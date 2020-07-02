@@ -1,0 +1,1307 @@
+swagger: "2.0"
+info:
+  title: 金钻系统-代理层API
+  description: 提供给各业务线客户端及联运平台的请求接口
+  version: 1.0.0
+  termsOfService: http://beego.me/
+  contact:
+    name: 郭双鹏
+    email: guoshuangpeng@le.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+basePath: /vcoin/proxy/v1/client
+paths:
+  /balance/{uid}:
+    get:
+      tags:
+      - balance
+      summary: 用户余额查询
+      description: '余额查询查询接口，需进行参数签名，验证规则请查看wiki: http://wiki.letv.cn/pages/viewpage.action?pageId=79235959'
+      operationId: BalanceController.用户余额查询
+      parameters:
+      - in: path
+        name: uid
+        description: 用户ID
+        required: true
+        type: number
+      - in: query
+        name: token_id
+        description: 代币ID
+        required: true
+        type: number
+      - in: query
+        name: business_id
+        description: 业务线ID
+        required: true
+        type: number
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: number
+      - in: query
+        name: sign
+        description: 签名
+        required: true
+        type: string
+      - in: query
+        name: sign_type
+        description: 签名方式
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.BalanceRsp'
+        "400":
+          description: ""
+  /combo/{gid}:
+    get:
+      tags:
+      - combo
+      summary: 充值套餐查询接口
+      description: 充值套餐查询接口.
+      operationId: ComboController.充值套餐查询接口
+      parameters:
+      - in: path
+        name: gid
+        description: 组合ID
+        required: true
+        type: number
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.ComboRsp'
+        "400":
+          description: ""
+  /expense/:
+    post:
+      tags:
+      - expense
+      summary: 金钻消耗下单接口
+      description: '金钻消耗下单接口，需进行参数签名，验证规则请查看wiki: http://wiki.letv.cn/pages/viewpage.action?pageId=79235959'
+      operationId: ExpenseController.金钻消耗下单接口
+      parameters:
+      - in: body
+        name: body
+        description: 请求参数
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.ExpenseReq'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.ExpenseRsp'
+        "400":
+          description: ""
+  /expense/list:
+    get:
+      tags:
+      - expense
+      summary: 消耗订单记录查询接口
+      description: '消耗订单记录查询接口，，需进行参数签名，验证规则请查看wiki: http://wiki.letv.cn/pages/viewpage.action?pageId=79235959'
+      operationId: ExpenseController.消耗订单记录查询接口
+      parameters:
+      - in: query
+        name: business_id
+        description: 业务线ID
+        required: true
+        type: number
+      - in: query
+        name: token_id
+        description: 代币ID
+        required: true
+        type: number
+      - in: query
+        name: uid
+        description: 用户ID
+        type: number
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: number
+      - in: query
+        name: sign
+        description: 签名
+        required: true
+        type: string
+      - in: query
+        name: sign_type
+        description: 签名方式
+        required: true
+        type: string
+      - in: query
+        name: last_id
+        description: 上次请求最后交易号
+        type: number
+      - in: query
+        name: count
+        description: 单次请求条数，最大不超过100条
+        type: number
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.ExpenseListRsp'
+        "400":
+          description: ""
+  /expense/status:
+    get:
+      tags:
+      - expense
+      summary: 消耗订单状态查询接口
+      description: 消耗订单状态查询接口.
+      operationId: ExpenseController.消耗订单状态查询接口
+      parameters:
+      - in: query
+        name: business_id
+        description: 业务线ID
+        required: true
+        type: number
+      - in: query
+        name: business_trans_id
+        description: 业务线交易ID
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.ExpenseStatusRsp'
+        "400":
+          description: ""
+  /present/:
+    post:
+      tags:
+      - present
+      summary: 金钻赠送下单接口
+      description: '金钻赠送下单接口，需进行参数签名，验证规则请查看wiki: http://wiki.letv.cn/pages/viewpage.action?pageId=79235959'
+      operationId: PresentController.金钻赠送下单接口
+      parameters:
+      - in: body
+        name: body
+        description: 请求参数
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.PresentReq'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.PresentRsp'
+        "400":
+          description: ""
+  /present/list:
+    get:
+      tags:
+      - present
+      summary: 赠送订单记录查询接口
+      description: '赠送订单记录查询接口，需进行参数签名，验证规则请查看wiki: http://wiki.letv.cn/pages/viewpage.action?pageId=79235959'
+      operationId: PresentController.赠送订单记录查询接口
+      parameters:
+      - in: query
+        name: token_id
+        description: 代币ID
+        required: true
+        type: number
+      - in: query
+        name: uid
+        description: 用户ID
+        type: number
+      - in: query
+        name: type
+        description: 赠送方式 1：后台赠送 2：接口赠送
+        type: number
+      - in: query
+        name: begin_time
+        description: 开始时间
+        type: number
+      - in: query
+        name: end_time
+        description: 结束时间
+        type: number
+      - in: query
+        name: last_id
+        description: 上次请求最后交易号
+        type: number
+      - in: query
+        name: count
+        description: 单次请求条数，最大不超过100条
+        type: number
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: number
+      - in: query
+        name: business_id
+        description: 业务线ID
+        required: true
+        type: number
+      - in: query
+        name: sign
+        description: 签名
+        required: true
+        type: string
+      - in: query
+        name: sign_type
+        description: 签名方式
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.PresentListRsp'
+        "400":
+          description: ""
+  /present/refund:
+    post:
+      tags:
+      - present
+      summary: 金钻赠送下单接口
+      description: '金钻赠送下单接口，需进行参数签名，验证规则请查看wiki: http://wiki.letv.cn/pages/viewpage.action?pageId=79235959'
+      operationId: PresentController.金钻赠送下单接口
+      parameters:
+      - in: body
+        name: body
+        description: 请求参数
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.PresentRefundReq'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.PresentRefundRsp'
+        "400":
+          description: ""
+  /present/status:
+    get:
+      tags:
+      - present
+      summary: 赠送订单状态查询接口
+      description: 赠送订单状态查询接口.
+      operationId: PresentController.赠送订单状态查询接口
+      parameters:
+      - in: query
+        name: business_id
+        description: 业务线ID
+        required: true
+        type: number
+      - in: query
+        name: business_trans_id
+        description: 业务线交易ID
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.PresentStatusRsp'
+        "400":
+          description: ""
+  /recharge/:
+    get:
+      tags:
+      - recharge
+      summary: 金钻充值下单接口
+      description: '金钻充值下单接口，需进行参数签名，验证规则请查看wiki: http://wiki.letv.cn/pages/viewpage.action?pageId=79235959'
+      operationId: RechargeController.金钻充值下单接口
+      parameters:
+      - in: query
+        name: combo_id
+        description: 金钻购买套餐ID
+        required: true
+        type: number
+      - in: query
+        name: combo_price_type
+        description: 金钻价格类型
+        required: true
+        type: number
+      - in: query
+        name: uid
+        description: 用户ID
+        type: number
+      - in: query
+        name: sso_tk
+        description: 乐视TK
+        type: string
+      - in: query
+        name: access_tk
+        description: 乐视移动端Tk
+        type: string
+      - in: query
+        name: nick_name
+        description: 用户昵称
+        type: string
+      - in: query
+        name: ip
+        description: 客户端真实IP
+        required: true
+        type: string
+      - in: query
+        name: business_id
+        description: 业务线ID
+        required: true
+        type: number
+      - in: query
+        name: channel_id
+        description: '渠道ID 1:联运SDK 2: 应用商店'
+        required: true
+        type: number
+      - in: query
+        name: app_id
+        description: 应用ID
+        required: true
+        type: number
+      - in: query
+        name: app_key
+        description: 应用key
+        required: true
+        type: string
+      - in: query
+        name: app_name
+        description: 应用名称
+        required: true
+        type: string
+      - in: query
+        name: app_trans_id
+        description: 订单ID，推荐生成规则：${uid}-${timestamp}-${gid}-${cid}
+        required: true
+        type: string
+      - in: query
+        name: description
+        description: 订单备注信息
+        type: string
+      - in: query
+        name: pay_expire
+        description: 交易自动关闭时间
+        type: number
+      - in: query
+        name: timestamp
+        description: 请求时间戳
+        required: true
+        type: number
+      - in: query
+        name: sign
+        description: 签名
+        required: true
+        type: string
+      - in: query
+        name: sign_type
+        description: 签名类型
+        required: true
+        type: string
+      - in: query
+        name: pay_ext
+        description: 扩展参数
+        type: string
+      - in: query
+        name: mac_address
+        description: mac地址
+        type: string
+      - in: query
+        name: click_path
+        description: 点击路径
+        type: string
+      - in: query
+        name: sales_area
+        description: 售卖地区
+        type: string
+      - in: query
+        name: app_code
+        description: 对内应用版本
+        type: string
+      - in: query
+        name: app_version
+        description: 对外应用版本
+        type: string
+      - in: query
+        name: terminal_brand
+        description: 终端公司
+        type: string
+      - in: query
+        name: client
+        description: 客户端系统
+        type: string
+      - in: query
+        name: device_key
+        description: 设备Key
+        type: string
+      - in: query
+        name: terminal_series
+        description: 设备型号
+        type: string
+      - in: query
+        name: lang_code
+        description: 系统语言
+        type: string
+      - in: query
+        name: cps_id
+        description: 位置ID
+        type: string
+      - in: query
+        name: source
+        description: 调用来源
+        type: string
+      - in: query
+        name: package_name
+        description: 一级调用包名
+        type: string
+      - in: query
+        name: refer_package_name
+        description: 二级调用包名
+        type: string
+      responses:
+        "302":
+          description: ""
+        "400":
+          description: ""
+  /recharge/list:
+    get:
+      tags:
+      - recharge
+      summary: 充值订单记录查询接口
+      description: '充值订单记录查询接口，需进行参数签名，验证规则请查看wiki: http://wiki.letv.cn/pages/viewpage.action?pageId=79235959'
+      operationId: RechargeController.充值订单记录查询接口
+      parameters:
+      - in: query
+        name: business_id
+        description: 业务线ID
+        required: true
+        type: number
+      - in: query
+        name: token_id
+        description: 代币ID
+        required: true
+        type: number
+      - in: query
+        name: uid
+        description: 用户ID
+        type: number
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: number
+      - in: query
+        name: begin_time
+        description: 开始时间
+        type: number
+      - in: query
+        name: end_time
+        description: 结束时间
+        type: number
+      - in: query
+        name: sign
+        description: 签名
+        required: true
+        type: string
+      - in: query
+        name: sign_type
+        description: 签名方式
+        required: true
+        type: string
+      - in: query
+        name: last_id
+        description: 上次请求最后交易号
+        type: number
+      - in: query
+        name: count
+        description: 单次请求条数，最大不超过100条
+        type: number
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.RechargeListRsp'
+        "400":
+          description: ""
+  /recharge/status:
+    get:
+      tags:
+      - recharge
+      summary: 充值订单状态批量查询接口
+      description: 充值订单状态批量查询接口.
+      operationId: RechargeController.充值订单状态批量查询接口
+      parameters:
+      - in: query
+        name: app_id
+        description: 应用ID
+        required: true
+        type: number
+      - in: query
+        name: app_trans_ids
+        description: 交易ID
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.RechargeStatusRsp'
+        "400":
+          description: ""
+  /statistic/:
+    get:
+      tags:
+      - statistic
+      summary: 统计查询查询接口
+      description: 统计查询查询接口
+      operationId: StatisticController.统计查询查询接口
+      parameters:
+      - in: query
+        name: token_id
+        description: 代币ID
+        required: true
+        type: number
+      - in: query
+        name: sso_tk
+        description: 乐视TK
+        type: string
+      - in: query
+        name: access_tk
+        description: 移动端乐视tk
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.StatisticRsp'
+        "400":
+          description: ""
+definitions:
+  controllers.BalanceItem:
+    title: BalanceItem
+    type: object
+    properties:
+      balance:
+        description: 账户余额
+        type: number
+        format: double
+      token_id:
+        description: 代币ID
+        type: integer
+        format: int64
+  controllers.BalanceRsp:
+    title: BalanceRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      data:
+        $ref: '#/definitions/controllers.BalanceItem'
+        description: 业务相关
+      message:
+        description: 错误描述
+        type: string
+  controllers.ComboItem:
+    title: ComboItem
+    type: object
+    properties:
+      activity_type:
+        description: 活动类型
+        type: integer
+        format: int64
+      buy_token_amount:
+        description: 购买代币数
+        type: number
+        format: double
+      cid:
+        description: 套餐ID
+        type: integer
+        format: int64
+      currency:
+        description: 法币标识
+        type: string
+      description:
+        description: 描述信息
+        type: string
+      extension:
+        description: 扩展字段
+        type: string
+      give_token_amount:
+        description: 赠送代币数
+        type: number
+        format: double
+      name:
+        description: 套餐名称
+        type: string
+      prices:
+        description: 套餐价格列表
+        type: array
+        items:
+          $ref: '#/definitions/models.ComboPrice'
+      token_id:
+        description: 代币ID
+        type: integer
+        format: int64
+      url:
+        description: 下单接口
+        type: string
+  controllers.ComboRsp:
+    title: ComboRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      data:
+        $ref: '#/definitions/controllers.DataContent'
+        description: 业务相关
+      message:
+        description: 错误描述
+        type: string
+  controllers.DataContent:
+    title: DataContent
+    type: object
+    properties:
+      combos:
+        description: 套餐列表
+        type: array
+        items:
+          $ref: '#/definitions/controllers.ComboItem'
+  controllers.ExpenseItem:
+    title: ExpenseItem
+    type: object
+    properties:
+      amount:
+        description: 代币价格
+        type: number
+        format: double
+      app_id:
+        description: 应用ID
+        type: integer
+        format: int64
+      app_name:
+        description: 应用名称
+        type: string
+      business_id:
+        description: 金钻分配业务线ID
+        type: integer
+        format: int64
+      business_name:
+        description: 业务线名称
+        type: string
+      business_trans_id:
+        description: 业务线订单ID
+        type: string
+      co_trans_id:
+        description: 联运订单ID
+        type: string
+      create_time:
+        description: 下单时间
+        type: string
+      currency:
+        description: 法币标识
+        type: string
+      description:
+        description: 订单描述信息
+        type: string
+      id:
+        description: 消耗订单ID-金钻平台
+        type: integer
+        format: int64
+      nick_name:
+        description: 用户昵称
+        type: string
+      price:
+        description: 法币价格
+        type: number
+        format: double
+      product_name:
+        description: 商品名称
+        type: string
+      status:
+        description: 消耗订单状态
+        type: integer
+        format: int64
+      token_id:
+        description: 代币ID
+        type: integer
+        format: int64
+      uid:
+        description: 乐视账号ID
+        type: integer
+        format: int64
+  controllers.ExpenseList:
+    title: ExpenseList
+    type: object
+    properties:
+      len:
+        description: 列表长度
+        type: integer
+        format: int64
+      list:
+        description: 订单列表
+        type: array
+        items:
+          $ref: '#/definitions/controllers.ExpenseItem'
+  controllers.ExpenseListRsp:
+    title: ExpenseListRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      data:
+        $ref: '#/definitions/controllers.ExpenseList'
+        description: 业务相关
+      message:
+        description: 错误描述
+        type: string
+  controllers.ExpenseReq:
+    title: ExpenseReq
+    required:
+    - token_id
+    - amount
+    - currency
+    - price
+    - product_id
+    - product_name
+    - business_id
+    - business_trans_id
+    - app_id
+    - app_key
+    - app_name
+    - timestamp
+    - sign
+    - sign_type
+    type: object
+    properties:
+      access_tk:
+        description: 乐视移动端Tk
+        type: string
+      amount:
+        description: 代币金额
+        type: string
+      app_id:
+        description: 应用ID
+        type: integer
+        format: int64
+      app_key:
+        description: 应用key
+        type: string
+      app_name:
+        description: 应用名称
+        type: string
+      business_id:
+        description: 金钻系统分配业务线ID
+        type: integer
+        format: int64
+      business_trans_id:
+        description: 业务线交易ID
+        type: string
+      client:
+        description: 客户端系统
+        type: string
+        example: android
+      currency:
+        description: 法币标识
+        type: string
+        example: RMB
+      description:
+        description: 交易备注信息
+        type: string
+      notify_url:
+        description: 通知回调地址
+        type: string
+      pay_expire:
+        description: 交易自动关闭时间，单位分钟
+        type: integer
+        format: int64
+      price:
+        description: 法币金额
+        type: string
+      product_id:
+        description: 产品ID
+        type: string
+      product_name:
+        description: 商品名称
+        type: string
+      sign:
+        description: 签名
+        type: string
+      sign_type:
+        description: 签名方式
+        type: string
+      sso_tk:
+        description: 乐视TK
+        type: string
+      timestamp:
+        description: 时间戳
+        type: integer
+        format: int64
+      token_id:
+        description: 代币ID
+        type: integer
+        example: 1
+        format: int64
+      uid:
+        description: 用户ID
+        type: integer
+        format: int64
+      user_name:
+        description: 用户昵称
+        type: string
+  controllers.ExpenseRsp:
+    title: ExpenseRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      message:
+        description: 错误描述
+        type: string
+  controllers.ExpenseStatusItem:
+    title: ExpenseStatusItem
+    type: object
+    properties:
+      id:
+        description: 业务线订单号
+        type: string
+      status:
+        description: 订单状态
+        type: integer
+        format: int64
+  controllers.ExpenseStatusRsp:
+    title: ExpenseStatusRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      data:
+        $ref: '#/definitions/controllers.ExpenseStatusItem'
+        description: 业务相关
+      message:
+        description: 错误描述
+        type: string
+  controllers.PresentData:
+    title: PresentData
+    type: object
+    properties:
+      id:
+        description: 金钻赠送订单ID
+        type: string
+  controllers.PresentItem:
+    title: PresentItem
+    type: object
+    properties:
+      amount:
+        description: 赠送额度
+        type: number
+        format: double
+      business_id:
+        description: 业务线ID
+        type: integer
+        format: int64
+      business_name:
+        description: 业务线名称
+        type: string
+      create_time:
+        description: 下单时间
+        type: string
+      creator:
+        description: 赠送操作人
+        type: string
+      description:
+        description: 赠送描述信息
+        type: string
+      id:
+        description: 赠送订单ID
+        type: string
+      nick_name:
+        description: 用户昵称
+        type: string
+      status:
+        description: 订单状态
+        type: integer
+        format: int64
+      token_id:
+        description: 代币ID
+        type: integer
+        format: int64
+      type:
+        description: 赠送类别
+        type: integer
+        format: int64
+      uid:
+        description: 用户ID
+        type: integer
+        format: int64
+      update_time:
+        description: 最后修改时间
+        type: string
+  controllers.PresentList:
+    title: PresentList
+    type: object
+    properties:
+      len:
+        description: 列表长度
+        type: integer
+        format: int64
+      list:
+        description: 订单列表
+        type: array
+        items:
+          $ref: '#/definitions/controllers.PresentItem'
+  controllers.PresentListRsp:
+    title: PresentListRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      data:
+        $ref: '#/definitions/controllers.PresentList'
+        description: 业务相关
+      message:
+        description: 错误描述
+        type: string
+  controllers.PresentRefundReq:
+    title: PresentRefundReq
+    type: object
+    properties:
+      business_id:
+        description: 业务线Id
+        type: integer
+        format: int64
+      business_trans_id:
+        description: 业务线交易ID
+        type: string
+      sign:
+        description: 签名
+        type: string
+      sign_type:
+        description: 签名类型
+        type: string
+      timestamp:
+        description: 请求时间戳
+        type: integer
+        format: int64
+  controllers.PresentRefundRsp:
+    title: PresentRefundRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      message:
+        description: 错误描述
+        type: string
+  controllers.PresentReq:
+    title: PresentReq
+    type: object
+    properties:
+      amount:
+        description: 赠送总额度
+        type: string
+      business_id:
+        description: 业务线Id
+        type: integer
+        format: int64
+      business_trans_id:
+        description: 业务线订单
+        type: string
+      description:
+        description: 备注信息
+        type: string
+      requirement_id:
+        description: 来源方请求ID,类似产品ID,透传给联运
+        type: string
+      requirement_name:
+        description: 来源方请求名称,类似产品名称,透传给联运
+        type: string
+      sign:
+        description: 签名
+        type: string
+      sign_type:
+        description: 签名类型
+        type: string
+      timestamp:
+        description: 请求时间戳
+        type: integer
+        format: int64
+      token_id:
+        description: 代币ID
+        type: integer
+        format: int64
+      type:
+        description: 赠送类型
+        type: integer
+        format: int64
+      uid:
+        description: 用户ID
+        type: integer
+        format: int64
+  controllers.PresentRsp:
+    title: PresentRsp
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/controllers.PresentData'
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      message:
+        description: 错误描述
+        type: string
+  controllers.PresentStatusItem:
+    title: PresentStatusItem
+    type: object
+    properties:
+      id:
+        description: 业务线订单号
+        type: string
+      status:
+        description: 订单状态
+        type: integer
+        format: int64
+  controllers.PresentStatusRsp:
+    title: PresentStatusRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      data:
+        $ref: '#/definitions/controllers.PresentStatusItem'
+        description: 业务相关
+      message:
+        description: 错误描述
+        type: string
+  controllers.RechargeItem:
+    title: RechargeItem
+    type: object
+    properties:
+      app_id:
+        description: 应用ID
+        type: integer
+        format: int64
+      app_name:
+        description: 应用名称
+        type: string
+      business_id:
+        description: 金钻分配业务线ID
+        type: integer
+        format: int64
+      business_name:
+        description: 业务线名称
+        type: string
+      buy_token_amount:
+        description: 购买代币数
+        type: number
+        format: double
+      channel_id:
+        description: 充值渠道ID
+        type: integer
+        format: int64
+      co_trans_id:
+        description: 联运订单ID
+        type: string
+      combo_name:
+        description: 套餐名称
+        type: string
+      create_time:
+        description: 下单时间
+        type: string
+      currency:
+        description: 法币标识
+        type: string
+      description:
+        description: 订单描述信息
+        type: string
+      give_token_amount:
+        description: 赠送代币数
+        type: number
+        format: double
+      id:
+        description: 充值订单ID-金钻平台
+        type: integer
+        format: int64
+      nick_name:
+        description: 用户昵称
+        type: string
+      pay_channel:
+        description: 支付渠道(WEIXIN、ALIPAY)
+        type: string
+      price:
+        description: 法币价格
+        type: number
+        format: double
+      status:
+        description: 充值订单状态
+        type: integer
+        format: int64
+      token_id:
+        description: 代币ID
+        type: integer
+        format: int64
+      uid:
+        description: 乐视账号ID
+        type: integer
+        format: int64
+  controllers.RechargeList:
+    title: RechargeList
+    type: object
+    properties:
+      len:
+        description: 列表长度
+        type: integer
+        format: int64
+      list:
+        description: 订单列表
+        type: array
+        items:
+          $ref: '#/definitions/controllers.RechargeItem'
+  controllers.RechargeListRsp:
+    title: RechargeListRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      data:
+        $ref: '#/definitions/controllers.RechargeList'
+        description: 业务相关
+      message:
+        description: 错误描述
+        type: string
+  controllers.RechargeStatusItem:
+    title: RechargeStatusItem
+    type: object
+    properties:
+      app_trans_id:
+        description: 应用生成订单号
+        type: string
+      id:
+        description: 金钻订单
+        type: integer
+        format: int64
+      status:
+        description: 订单状态
+        type: integer
+        format: int64
+  controllers.RechargeStatusList:
+    title: RechargeStatusList
+    type: object
+    properties:
+      list:
+        description: 订单状态列表
+        type: array
+        items:
+          $ref: '#/definitions/controllers.RechargeStatusItem'
+  controllers.RechargeStatusRsp:
+    title: RechargeStatusRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      data:
+        $ref: '#/definitions/controllers.RechargeStatusList'
+        description: 业务相关
+      message:
+        description: 错误描述
+        type: string
+  controllers.StatisticDataContent:
+    title: StatisticDataContent
+    type: object
+    properties:
+      list:
+        description: 统计信息列表
+        type: array
+        items:
+          $ref: '#/definitions/controllers.StatisticItem'
+  controllers.StatisticItem:
+    title: StatisticItem
+    type: object
+    properties:
+      amount:
+        description: 交易总金额
+        type: number
+        format: double
+      count:
+        description: 订单总量
+        type: integer
+        format: int64
+      token_id:
+        description: 代币ID
+        type: integer
+        format: int64
+      type:
+        description: 类别
+        type: integer
+        format: int64
+      uid:
+        description: 用户ID
+        type: integer
+        format: int64
+      update_time:
+        description: 最后交易时间
+        type: string
+  controllers.StatisticRsp:
+    title: StatisticRsp
+    type: object
+    properties:
+      code:
+        description: 详细错误码
+        type: integer
+        format: int64
+      data:
+        $ref: '#/definitions/controllers.StatisticDataContent'
+        description: 业务相关
+      message:
+        description: 错误描述
+        type: string
+  models.ComboPrice:
+    title: ComboPrice
+    type: object
+    properties:
+      combo_price_type:
+        description: '价格类别:(1：原价, 2: 权益会员价)'
+        type: integer
+        format: int64
+      price:
+        description: 法币价格
+        type: number
+        format: double
+tags:
+- name: recharge
+  description: |
+    购买流程相关接口
+- name: expense
+  description: |
+    消耗流程相关接口
+- name: balance
+  description: |
+    用户余额关联接口
+- name: combo
+  description: |
+    套餐组合相关接口
+- name: statistic
+  description: |
+    统计相关接口
+- name: present
+  description: |
+    赠送流程相关接口

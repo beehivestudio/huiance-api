@@ -1,0 +1,750 @@
+swagger: "2.0"
+info: {}
+basePath: /upgrade/backend/v1
+paths:
+  /apk/:
+    get:
+      tags:
+      - apk
+      description: 获取APK列表
+      operationId: ApkController.获取APK列表
+      parameters:
+      - in: query
+        name: app_id
+        description: 应用ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: id
+        description: APKID
+        type: integer
+        format: int64
+      - in: query
+        name: version
+        description: 版本号
+        type: string
+      - in: query
+        name: version_name
+        description: 版本名称
+        type: string
+      - in: query
+        name: status
+        description: 状态
+        type: integer
+        format: int64
+      - in: query
+        name: page
+        description: 页号 默认为1
+        type: integer
+        format: int64
+      - in: query
+        name: page_size
+        description: 条目数 默认为20
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/comm.InterfaceResp'
+        "403":
+          description: ""
+    post:
+      tags:
+      - apk
+      description: Apk创建
+      operationId: ApkController.Apk创建
+      parameters:
+      - in: body
+        name: body
+        description: body for Apk content
+        required: true
+        schema:
+          $ref: '#/definitions/controller.Apk'
+      responses:
+        "201":
+          description: '{int} comm.AddResp'
+        "403":
+          description: body is empty
+  /apk/{id}:
+    get:
+      tags:
+      - apk
+      description: 查询单条APK
+      operationId: ApkController.查询单条APK
+      parameters:
+      - in: path
+        name: id
+        description: app id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/comm.InterfaceResp'
+        "403":
+          description: :id is empty
+    put:
+      tags:
+      - apk
+      description: 修改APK信息
+      operationId: ApkController.修改APK信息
+      parameters:
+      - in: path
+        name: id
+        description: APK ID
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for Apk content
+        required: true
+        schema:
+          $ref: '#/definitions/controller.Apk'
+      responses:
+        "201":
+          description: '{int} comm.AddResp'
+        "403":
+          description: :id is not int
+  /apk/strategy/:
+    post:
+      tags:
+      - apk/strategy
+      description: create Apk
+      operationId: ApkStrategyController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for Apk content
+        required: true
+        schema:
+          $ref: '#/definitions/models.Apk'
+      responses:
+        "201":
+          description: '{int} models.Apk'
+        "403":
+          description: body is empty
+  /apk/strategy/{id}:
+    get:
+      tags:
+      - apk/strategy
+      description: get Apk by id
+      operationId: ApkStrategyController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Apk'
+        "403":
+          description: :id is empty
+    put:
+      tags:
+      - apk/strategy
+      description: update the Apk
+      operationId: ApkStrategyController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for Apk content
+        required: true
+        schema:
+          $ref: '#/definitions/models.Apk'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Apk'
+        "403":
+          description: :id is not int
+  /apk/strategy/list:
+    get:
+      tags:
+      - apk/strategy
+      description: get Apk
+      operationId: ApkStrategyController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Apk'
+        "403":
+          description: ""
+  /app/:
+    get:
+      tags:
+      - app
+      description: 获取应用列表
+      operationId: AppController.获取应用列表
+      parameters:
+      - in: query
+        name: business_id
+        description: 业务线ID     非管理员用户必传（不做逻辑限制）
+        type: integer
+        format: int64
+      - in: query
+        name: id
+        description: 应用ID
+        type: integer
+        format: int64
+      - in: query
+        name: name
+        description: 应用名称
+        type: string
+      - in: query
+        name: package_name
+        description: 应用包名
+        type: string
+      - in: query
+        name: cdn_splat_id
+        description: 子平台ID
+        type: integer
+        format: int64
+      - in: query
+        name: dev_type_id
+        description: 设备种类ID
+        type: integer
+        format: int64
+      - in: query
+        name: enable
+        description: 是否启用
+        type: integer
+        format: int64
+      - in: query
+        name: page
+        description: 页号 默认为1
+        type: integer
+        format: int64
+      - in: query
+        name: page_size
+        description: 条目数 默认为20
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/comm.InterfaceResp'
+        "403":
+          description: ""
+    post:
+      tags:
+      - app
+      description: 新增应用
+      operationId: AppController.新增应用
+      parameters:
+      - in: body
+        name: body
+        description: body for App content
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.AppReq'
+      responses:
+        "201":
+          description: '{int} comm.AddResp'
+        "403":
+          description: body is empty
+  /app/{id}:
+    get:
+      tags:
+      - app
+      description: 查询单条应用
+      operationId: AppController.查询单条应用
+      parameters:
+      - in: path
+        name: id
+        description: app id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/comm.InterfaceResp'
+        "403":
+          description: :id is empty
+    put:
+      tags:
+      - app
+      description: 修改应用
+      operationId: AppController.修改应用
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for App content
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.AppReq'
+      responses:
+        "201":
+          description: '{int} comm.BaseResp'
+        "403":
+          description: :id is not int
+  /business/:
+    post:
+      tags:
+      - business
+      description: 新增业务
+      operationId: BusinessController.新增业务
+      parameters:
+      - in: body
+        name: body
+        description: body for Business content
+        required: true
+        schema:
+          $ref: '#/definitions/models.Business'
+      responses:
+        "201":
+          description: '{int} models.Business'
+        "403":
+          description: body is empty
+  /business/{id}:
+    get:
+      tags:
+      - business
+      description: 根据id查询单条业务
+      operationId: BusinessController.查询单条业务
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Business'
+        "403":
+          description: :id is empty
+    put:
+      tags:
+      - business
+      description: 更加业务id修改业务
+      operationId: BusinessController.修改业务
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for Business content
+        required: true
+        schema:
+          $ref: '#/definitions/models.Business'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Business'
+        "403":
+          description: :id is not int
+    delete:
+      tags:
+      - business
+      description: 根据业务id删除业务和业务流控数据
+      operationId: BusinessController.删除业务
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} delete success!'
+        "403":
+          description: id is empty
+  /business/list:
+    get:
+      tags:
+      - business
+      description: 获取业务列表
+      operationId: BusinessController.获取业务列表
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Business'
+        "403":
+          description: ""
+  /cdn/callback/:
+    post:
+      tags:
+      - cdn/callback
+      description: CDN回调
+      operationId: CdnCallBackController.CDN回调
+      parameters:
+      - in: query
+        name: outkey
+        description: 文件唯一标识
+        required: true
+        type: string
+      - in: query
+        name: storeurl
+        description: cdn存储短路径
+        required: true
+        type: string
+      - in: query
+        name: status
+        description: 状态
+        required: true
+        type: string
+      - in: query
+        name: md5
+        description: 文件md5
+        required: true
+        type: string
+      responses:
+        "201":
+          description: '{int} models.Business'
+        "403":
+          description: body is empty
+  /dev/group/list:
+    get:
+      tags:
+      - dev/group
+      description: get GetDevGroupList by dev_type_id
+      operationId: DevGroupController.Get One
+      parameters:
+      - in: query
+        name: dev_type_id
+        description: The dev_type_id for select
+        required: true
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.DevGroup'
+        "403":
+          description: ""
+  /dev/type/:
+    post:
+      tags:
+      - dev/type
+      description: create DevType
+      operationId: DevTypeController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for DevType content
+        required: true
+        schema:
+          $ref: '#/definitions/models.DevType'
+      responses:
+        "201":
+          description: '{int} models.DevType'
+        "403":
+          description: body is empty
+  /dev/type/{id}:
+    get:
+      tags:
+      - dev/type
+      description: get DevType by id
+      operationId: DevTypeController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.DevType'
+        "403":
+          description: :id is empty
+    put:
+      tags:
+      - dev/type
+      description: update the DevType
+      operationId: DevTypeController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for DevType content
+        required: true
+        schema:
+          $ref: '#/definitions/models.DevType'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.DevType'
+        "403":
+          description: :id is not int
+    delete:
+      tags:
+      - dev/type
+      description: delete the DevType
+      operationId: DevTypeController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} delete success!'
+        "403":
+          description: id is empty
+  /dev/type/list:
+    get:
+      tags:
+      - dev/type
+      description: get DevType
+      operationId: DevTypeController.Get All
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.DevType'
+        "403":
+          description: ""
+  /file/:
+    post:
+      tags:
+      - file
+      description: create ApkUpload
+      operationId: ApkUploadController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for ApkUpload content
+        required: true
+        schema:
+          $ref: '#/definitions/upgrade.ApkUpload'
+      responses:
+        "201":
+          description: '{int} upgrade.ApkUpload'
+        "403":
+          description: body is empty
+  /file/{id}:
+    get:
+      tags:
+      - file
+      description: get ApkUpload by id
+      operationId: ApkUploadController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "403":
+          description: :id is empty
+        http.StatusOK:
+          description: ""
+          schema:
+            $ref: '#/definitions/upgrade.ApkUpload'
+  /file/list:
+    get:
+      tags:
+      - file
+      description: get ApkUpload
+      operationId: ApkUploadController.Get All
+      responses:
+        "403":
+          description: ""
+        http.StatusOK:
+          description: ""
+          schema:
+            $ref: '#/definitions/upgrade.ApkUpload'
+  /patch/algo/:
+    post:
+      tags:
+      - patch/algo
+      description: create ApkPatchAlgo
+      operationId: PatchAlgoControleer.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for ApkPatchAlgo content
+        required: true
+        schema:
+          $ref: '#/definitions/models.ApkPatchAlgo'
+      responses:
+        "201":
+          description: '{int} models.ApkPatchAlgo'
+        "403":
+          description: body is empty
+  /patch/algo/{id}:
+    get:
+      tags:
+      - patch/algo
+      description: get ApkPatchAlgo by id
+      operationId: PatchAlgoControleer.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ApkPatchAlgo'
+        "403":
+          description: :id is empty
+    put:
+      tags:
+      - patch/algo
+      description: update the ApkPatchAlgo
+      operationId: PatchAlgoControleer.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for ApkPatchAlgo content
+        required: true
+        schema:
+          $ref: '#/definitions/models.ApkPatchAlgo'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ApkPatchAlgo'
+        "403":
+          description: :id is not int
+    delete:
+      tags:
+      - patch/algo
+      description: delete the ApkPatchAlgo
+      operationId: PatchAlgoControleer.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} delete success!'
+        "403":
+          description: id is empty
+  /patch/algo/list:
+    get:
+      tags:
+      - patch/algo
+      description: get ApkPatchAlgo
+      operationId: PatchAlgoControleer.Get All
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ApkPatchAlgo'
+        "403":
+          description: ""
+definitions:
+  comm.InterfaceResp:
+    title: InterfaceResp
+    type: object
+  controller.Apk:
+    title: Apk
+    type: object
+  controllers.AppReq:
+    title: AppReq
+    type: object
+  models.Apk:
+    title: Apk
+    type: object
+  models.ApkPatchAlgo:
+    title: ApkPatchAlgo
+    type: object
+  models.Business:
+    title: Business
+    type: object
+  models.DevGroup:
+    title: DevGroup
+    type: object
+  models.DevType:
+    title: DevType
+    type: object
+  upgrade.ApkUpload:
+    title: ApkUpload
+    type: object
+tags:
+- name: apk/strategy
+  description: |
+    ApkStrategyController operations for ApkUpgrade
+- name: app
+  description: |
+    AppController operations for App
+- name: apk
+  description: |
+    ApkController operations for Apk
+- name: business
+  description: |
+    BusinessController operations for Business
+- name: dev/group
+  description: |
+    DevGroupController operations for DevGroup
+- name: dev/type
+  description: |
+    DevTypeController operations for DevType
+- name: patch/algo
+  description: |
+    PatchAlgoControleer operations for ApkPatchAlgo
+- name: file
+  description: |
+    ApkUploadController operations for ApkUpload

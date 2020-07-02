@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=utf-8>
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <title>OTA升级管理系统平台</title>
+    <link href="http://ued.beta.scloud.letv.cn:8888/le_vue/ota/dist/static/css/app.css" rel=stylesheet>
+</head>
+<script type=text/javascript src=https://jstatic.letvcdn.com/sdk/passport.js></script>
+<script>$Le = window.$Le = {};
+    var $C = {
+        ssoUrl: 'http://sso.test.lecommons.com/?backurl=',  //sso登录地址
+        baseUrl: "http://test.backend.upgrade.letv.com/#/",  //管理后台域名
+        user: {
+            'name': {{.nickName}},
+            'email': {{.email}}
+        }
+    }
+    $Le.getUrlParam = function (name) {
+        var reg = new RegExp("(^|&)" +
+            name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    };
+    let tk = $Le.getUrlParam('m_tk');
+    if (!tk) {
+        window.location.href = $C.ssoUrl + $C.baseUrl;
+    }
+
+    var apiBase = ""
+    var api = {
+        business: {
+            getLists: apiBase + "/upgrade/backend/v1/business/list",  //获取业务线列表
+            getDetail: apiBase + "/upgrade/backend/v1/business/",  //获取指定业务线
+            editApp: apiBase + "/upgrade/backend/v1/business/",  //修改业务线 put
+        },
+        app: {
+            getLists: apiBase + "/upgrade/backend/v1/app/list",   //获取应用列表
+            getDetail: apiBase + "/upgrade/backend/v1/app/",  //获取指定应用
+            addApp: apiBase + "/upgrade/backend/v1/app",  //新增应用 post
+            editApp: apiBase + "/upgrade/backend/v1/app/",  //修改应用 put
+        },
+        apk: {
+            getLists: apiBase + "/upgrade/backend/v1/apk/list",   //获取apk列表
+            getDetail: apiBase + "/upgrade/backend/v1/apk/",  //获取指定apk
+            addApp: apiBase + "/upgrade/backend/v1/apk",  //新增apk post
+            editApp: apiBase + "/upgrade/backend/v1/apk/",  //修改apk put
+        },
+        strategy: {
+            getLists: apiBase + "/upgrade/backend/v1/apk/strategy/list",   //获取升级策略列表
+            getDetail: apiBase + "/upgrade/backend/v1/apk/strategy/",  //获取指定升级策略
+            addApp: apiBase + "/upgrade/backend/v1/apk/strategy",  //新增升级策略 post
+            editApp: apiBase + "/upgrade/backend/v1/apk/strategy/",  //修改升级策略 put
+        },
+        file: {
+            uploadFile: apiBase + "/upgrade/backend/v1/file",   //文件上传 post
+            getLists: apiBase + "/upgrade/backend/v1/file/list",   //获取文件列表
+        },
+        dev: {
+            getDevTypeList: apiBase + "/upgrade/backend/v1/dev/type/list",   //获取设备种类列表
+            getGroupList: apiBase + "/upgrade/backend/v1/dev/group/list",   //获取设备分组列表
+        }
+    }
+</script>
+<body>
+<div id=app></div>
+<script type=text/javascript src="http://ued.beta.scloud.letv.cn:8888/le_vue/ota/dist/static/js/manifest.js"></script>
+<script type=text/javascript src="http://ued.beta.scloud.letv.cn:8888/le_vue/ota/dist/static/js/vendor.js"></script>
+<script type=text/javascript src="http://ued.beta.scloud.letv.cn:8888/le_vue/ota/dist/static/js/app.js"></script>
+</body>
+</html>
